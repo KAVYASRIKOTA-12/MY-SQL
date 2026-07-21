@@ -1,0 +1,8 @@
+
+create database sample;
+use sample;
+create table student(id int,name varchar(50),college varchar(30),branch varchar(20));
+insert into student(id,name,college,branch) values(10,"kavya","srk","cse"),(20,"harika","IIIT","ece");
+select * from student;
+select id,name from student;
+
