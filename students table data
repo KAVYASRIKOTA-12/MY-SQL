@@ -1,0 +1,22 @@
+create database students;
+use students;
+create table stu(stu_id tinyint,stu_name varchar(25),course varchar(50));
+desc stu;
+alter table stu add column email varchar(30),add column ph_no varchar(20),add column city varchar(30);
+desc stu;
+alter table stu add column age int;
+desc stu;
+#add constraints to existing table
+#alter table table_name add constraint_name constraint key (column_name);
+alter table stu add constraint prk_stu_id primary key(stu_id);
+desc stu;
+alter table stu add unique key(ph_no);
+desc stu;
+alter table stu add check (age>=18);
+desc stu;
+#alter table table_name alter column set default;
+alter table stu alter column city set default "vja";
+desc stu;
+#alter table tale_name modify column column_name datatype not null;
+alter table stu modify column stu_name varchar(20) not null;
+desc stu;
