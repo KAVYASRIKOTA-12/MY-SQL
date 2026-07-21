@@ -1,0 +1,59 @@
+use sample;
+select * from superstore;
+select category,country,segment from superstore;
+select country from superstore;
+#it will display multiple records
+#distinct is used to remove the duplicate records from table;
+select distinct country from superstore; 
+select distinct country,category from superstore;
+select distinct country,category,segment from superstore;
+#order by is used to keep records in ascending or descending order
+select distinct country from superstore order by country asc;
+select distinct country,category from superstore order by category desc;
+select distinct country,category,segment from superstore order by segment asc;
+select distinct sales from superstore order by sales asc;
+select distinct sales from superstore order by sales desc;
+select distinct country,sales from superstore order by country,sales asc;
+select distinct country,sales from superstore order by country,sales desc;
+#to get all records from germany country
+select * from superstore where country="germany";
+select distinct country from superstore where country="germany";
+select distinct country from superstore where country="germany" and country="france"; #ntg will display
+select distinct country from superstore where country="germany" or country="france";
+select distinct country from superstore where country="france" or country="spain";
+select distinct country from superstore where country="france" or country="spain" or country="italy" or country="austria";
+select distinct country from superstore where country in("france","spain","italy","austria");
+select distinct country from superstore where country in("france","spain","italy","austria") order by country asc;
+select distinct country from superstore where country in("france","spain","italy","austria") order by country desc;
+#to get all records from country austria and category technology
+select * from superstore where country="austria" and category="technology";
+select distinct country,category from superstore where country="austria" and category="technology";
+#to get all records from superstore expect germany country(!=,<>)
+select * from superstore where country!="germany";
+select * from superstore where country<>"germany";
+select distinct country from superstore where country!="germany";
+select distinct country from superstore where country<>"germany";
+#to get all country's except italy,spain,nepal
+select distinct country from superstore where country not in("italy","spain","nepal");
+select distinct country from superstore where country<>"italy" and country<>"spain" and country<>"nepal";
+#to get all records from sales where sales>=1000
+select * from superstore where sales>=1000;
+select distinct sales from superstore where sales>=1000;
+select distinct sales from superstore where sales>=1000 order by sales asc;
+select distinct sales from superstore where sales>=1000 order by sales desc;
+#to get all records from sales where sales between 500 to 1000
+select distinct sales from superstore where sales between 500 and 1000;
+select distinct sales from superstore where sales>=500 and sales<=1000;
+select distinct sales from superstore where sales between 500 and 1000 order by sales asc;
+select distinct sales from superstore where sales between 500 and 1000 order by sales desc;
+
+
+
+
+
+
+
+
+
+
+ 
