@@ -1,0 +1,24 @@
+create database employee;
+use employee;
+#create table table_name (emp_id,emp_name,email,ph_no,age,salary,dept_id,city);
+create table emp(emp_id tinyint primary key,emp_name varchar(30),email varchar(30),
+ph_no varchar(40),age tinyint unsigned check(age>=18),salary decimal(10,2) check(salary>=10000),
+dept_id int not null,city varchar(30));
+desc emp;
+insert into emp(emp_id,emp_name,email,ph_no,age,salary,dept_id,city)
+values(1,"kavya","k@gmail.com","9875442907",22,15000,101,"vja"),(2,"harika","h@gmail.com","9002778576",21,20000,102,"hyd");
+desc emp;
+select * from emp;
+select * from emp where emp_id=2;
+select * from emp;
+delete from emp where emp_id=2;
+select * from emp;
+#update
+#update table_name set column where column name;
+update emp set salary=30000 where emp_id=1;
+select * from emp;
+update emp set age=24 where emp_id=1;
+select * from emp;
+truncate emp;
+select * from emp;
+
