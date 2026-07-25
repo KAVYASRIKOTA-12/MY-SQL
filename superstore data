@@ -47,7 +47,38 @@ select distinct sales from superstore where sales>=500 and sales<=1000;
 select distinct sales from superstore where sales between 500 and 1000 order by sales asc;
 select distinct sales from superstore where sales between 500 and 1000 order by sales desc;
 
+#aggreations fns min,max,sum,avg,count
+select * from superstore;
+select country,sales from superstore;
+select min(sales) from superstore;
+select max(sales) from superstore;
+select sum(sales) from superstore;
+select avg(sales) from superstore;
+select count(sales) from superstore;
+select sum(sales) as total_sale from superstore;
+select avg(sales) as avg_sale from superstore;
+select min(sales) as min_sale from superstore;
+select max(sales) as max_sale from superstore;
+select count(sales) as count_sale from superstore;
+select country,sum(sales) from superstore group by country;
+select country,segment,sum(sales) from superstore group by country,segment;
+select country,sum(sales) from superstore where country = "germany";
+select country,sum(sales) from superstore where country in ("germany","france") group by country;
+select country,sum(sales) from superstore where country in ("germany","france") group by country order by sum(sales);
+select country,region,sum(sales) from superstore where country in ("germany","france","spain","italy") and Region in("south","north") group by country,Region;
 
+#get country wise total_sales and avg_sales and country should be france
+select country,sum(sales) as total_sales,avg(sales) as avg_sales from superstore where country="france";
+#get segment,country and region wise total_sales and avg_sales
+select segment,country,region,sum(sales) as total_sales,avg(sales) as avg_sales from superstore group by segment,country,region;
+select segment,country,region,sum(sales) as total_sales,avg(sales) as avg_sales from superstore group by 1,2,3;
+#get segment,country wise avg_sales
+select segment,country,avg(sales) as avg_sales from superstore group by 1,2;
+#get segment,country wise avg_sales and avg_sales must be greater than 300
+select segment,country,avg(sales) as avg_sales from superstore where avg_sales>300 group by 1,2;#error
+select segment,country,avg(sales) as avg_sales from superstore group by segment,country having avg_sales>300;
+#get country wise total_sales and country shold be either austria or france or spain or italy or nepal and total_sales must be greter than 2 lakhs
+select country,sum(sales) as total_sales from superstore where country in("austria","france","spain","italy","nepal") group by country having total_sales>200000 order by country;
 
 
 
