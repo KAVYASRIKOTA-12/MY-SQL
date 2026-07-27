@@ -82,6 +82,25 @@ select country,sum(sales) as total_sales from superstore where country in("austr
 
 
 
+#get country wise total_profit and country should be either germany or belgium or france or netherlands and total_profit must be greater than 200
+select country,sum(profit) as total_profit from superstore where country in("germany","belgium","france","netherlands") group by country having total_profit>200;
+#total quantity must be greater than 2
+select country,sum(quantity) as total_quantity from superstore where country in("germany","belgium","france","netherlands") group by country having total_quantity>2;
+#total_sales must be greater than 700
+select country,sum(sales) as total_sales from superstore where country in("germany","belgium","france","netherlands") group by country having total_sales>700;
+#bitwise operators
+#&,|,~,^,<<,>>
+#to get the result of quantity of 3
+select product_name,quantity,quantity & 3 as Bitwise_AND from superstore;
+select product_name,quantity,quantity | 2 as Bitwise_OR from superstore;
+select product_name,quantity,~quantity as Bitwise_NOT from superstore;
+select product_name,quantity,quantity ^ 6 as Bitwise_XOR from superstore;
+select product_name,quantity,quantity <<1  as Bitwise_LEFTSHIFT from superstore;
+select product_name,quantity,quantity >>1 as Bitwise_RIGHTSHIFT from superstore;
+#list of the quantity (odd quantity)
+select product_name,quantity from superstore where quantity&1=1;
+#list of the quantity (even quantity)
+select product_name,quantity from superstore where quantity&1=0;
 
 
 
