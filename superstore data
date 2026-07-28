@@ -102,6 +102,41 @@ select product_name,quantity from superstore where quantity&1=1;
 #list of the quantity (even quantity)
 select product_name,quantity from superstore where quantity&1=0;
 
+#numeric functions
+#mod,round,pow,sqrt,log,tan,cos,sin,greatest,least,pi,ceil,floor
+#mod->remainder
+select product_name,sales,mod(sales,10) as remainder from superstore;
+#pow
+select product_name,quantity,pow(quantity,2) as result from superstore;
+#sqrt
+select product_name,sales,sqrt(sales) as sqrt from superstore;
+#ceil
+select product_name,sales,ceil(sales/2.0) as ceil from superstore;
+select product_name,quantity,ceil(quantity/2.0) as ceil from superstore;
+#floor
+select product_name,profit,floor(profit/2.0) as floor from superstore;
+select product_name,quantity,floor(quantity/2.0) as floor from superstore;
+#round
+select product_name,quantity,round(quantity/3,4) as rd from superstore;
+select product_name,sales,round(sales/3,4) as rd from superstore;
+#log
+select product_name,quantity,log(quantity) as log from superstore;
+#sin
+select product_name,quantity,sin(quantity) as sin from superstore;
+#cos
+select product_name,quantity,cos(quantity) as cos from superstore;
+#tan
+select product_name,quantity,tan(quantity) as tan from superstore;
+#cot
+select product_name,quantity,cot(quantity) as cot from superstore;
+#pi
+select pi() as pi from superstore;
+#greatest,least,abs,truncate
+select sales,quantity,profit,greatest(sales,quantity,profit) as greatest_value from superstore;
+select sales,quantity,profit,least(sales,quantity,profit) as least_value from superstore;
+select profit,abs(profit) as actual_profit from superstore;
+#truncate is used to remove roundup values
+select sales,truncate(sales/3,3) as truncate_value from superstore;
 
 
 
