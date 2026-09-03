@@ -1,0 +1,69 @@
+#Normalization:process of organizing data in database tables
+#1.It reduces duplicate data
+#2.Avoid data consistency
+#3.Improve data organization
+#4.Make insert,update & delete operations easier
+#5.The main normal froms are 1NF,2NF,3NF
+
+#1NF->first normal form
+drop database students;
+create database students;
+use students;
+#create table->stu_id,stu_name,course_name,course_fees,subjects
+create table student(stu_id int,stu_name varchar(50),course_name varchar(50),course_fees int,subjects varchar(50));
+insert into student values(101,"mohan","python full stack",50000,"python,sql,flask"),
+(102,"gopi","data science",60000,"python,ml,ai"),
+(103,"lohith","java full stack",40000,"java,sql,html");
+select * from student;
+#create table student1->stu_id,stu_name,course_id
+drop table student1;
+create table student1(stu_id int primary key,stu_name varchar(30),course_id int);
+insert into student1 values(101,"mohan",1),(102,"gopi",2),(103,"lohith",3);
+select * from student1;
+#create table course->course_id int,course_name,course_fees
+create table course(course_id int primary key,course_name varchar(50),course_fees int);
+insert into course values(101,"python full stack",50000),(102,"data science",60000);
+select * from course;
+drop table subjects;
+create table subjects(stu_id int,sub_name varchar(50),primary key(stu_id,sub_name),foreign key(stu_id) references student1(stu_id));
+insert into subjects values(101,"python"),(101,"sql"),(101,"flask"),
+(102,"ai"),(102,"ml"),(102,"python"),
+(103,"sql"),(103,"java"),(103,"html");
+select * from subjects;
+
+#2NF->Means 2nd normal form 
+-- 1)It is already in 1NF
+-- 2)There should be no partial dependency
+-- 3)Every non key column must depend on the entire primary key,not just part of it 
+
+create table student2(stu_id  int primary key,stu_name varchar(40));
+insert into student2 values(101,"mohan"),(102,"gopi"),(103,"lohith");
+select * from student2;
+create table course1(course_id int primary key,course_name varchar(50),course_fees int);
+insert into course1 values(101,"python full stack",50000),(102,"Data science",60000);
+select * from course1;
+create table student_course(stu_id int,course_id int ,primary key(stu_id,course_id) ,foreign key(stu_id)
+references student2(stu_id),foreign key(course_id) references course1(course_id)); 
+insert into student_course values(101,101),(102,102),(103,101);
+select * from student_course;
+
+#3NF->
+-- 1) It is already in 2NF
+-- 2)There are no transitive dependency,a non key attributes should not depend on another non key attribute.
+-- 3)Every non key attribute must depend only on the primary key.
+
+create table student3(stu_id int primary key,stu_name varchar(50),course_id int, foreign key(course_id) references course2(course_id));
+create table course2(course_id int primary key,course_name varchar(40),course_fees int);
+insert into course2 values(1,"python full stack",50000),(2,"Data science",60000),(3,"java full stack",40000);
+insert into student3 values(101,"mohan",1),(102,"gopi",2),(103,"lohith",3),(104,"pooja",1);
+select * from student3;
+
+
+
+
+
+
+
+
+
+
