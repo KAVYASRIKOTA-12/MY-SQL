@@ -1,0 +1,354 @@
+use sample;
+select * from superstore;
+select category,country,segment from superstore;
+select country from superstore;
+#it will display multiple records
+#distinct is used to remove the duplicate records from table;
+select distinct country from superstore; 
+select distinct country,category from superstore;
+select distinct country,category,segment from superstore;
+#order by is used to keep records in ascending or descending order
+select distinct country from superstore order by country asc;
+select distinct country,category from superstore order by category desc;
+select distinct country,category,segment from superstore order by segment asc;
+select distinct sales from superstore order by sales asc;
+select distinct sales from superstore order by sales desc;
+select distinct country,sales from superstore order by country,sales asc;
+select distinct country,sales from superstore order by country,sales desc;
+#to get all records from germany country
+select * from superstore where country="germany";
+select distinct country from superstore where country="germany";
+select distinct country from superstore where country="germany" and country="france"; #ntg will display
+select distinct country from superstore where country="germany" or country="france";
+select distinct country from superstore where country="france" or country="spain";
+select distinct country from superstore where country="france" or country="spain" or country="italy" or country="austria";
+select distinct country from superstore where country in("france","spain","italy","austria");
+select distinct country from superstore where country in("france","spain","italy","austria") order by country asc;
+select distinct country from superstore where country in("france","spain","italy","austria") order by country desc;
+#to get all records from country austria and category technology
+select * from superstore where country="austria" and category="technology";
+select distinct country,category from superstore where country="austria" and category="technology";
+#to get all records from superstore expect germany country(!=,<>)
+select * from superstore where country!="germany";
+select * from superstore where country<>"germany";
+select distinct country from superstore where country!="germany";
+select distinct country from superstore where country<>"germany";
+#to get all country's except italy,spain,nepal
+select distinct country from superstore where country not in("italy","spain","nepal");
+select distinct country from superstore where country<>"italy" and country<>"spain" and country<>"nepal";
+#to get all records from sales where sales>=1000
+select * from superstore where sales>=1000;
+select distinct sales from superstore where sales>=1000;
+select distinct sales from superstore where sales>=1000 order by sales asc;
+select distinct sales from superstore where sales>=1000 order by sales desc;
+#to get all records from sales where sales between 500 to 1000
+select distinct sales from superstore where sales between 500 and 1000;
+select distinct sales from superstore where sales>=500 and sales<=1000;
+select distinct sales from superstore where sales between 500 and 1000 order by sales asc;
+select distinct sales from superstore where sales between 500 and 1000 order by sales desc;
+#to get all countries from france till spain
+select distinct country from superstore where country between "france" and "spain" order by country;
+#to get all records from germany and france sales>500
+select * from superstore where country in("germany","france") and sales>500 ;
+select distinct country,sales from superstore where country in("germany","france") and sales>500;
+select distinct country,sales from superstore where country in("germany","france") and sales>500 limit 3;
+select distinct sales from superstore where sales>500 order  by sales desc limit 7;
+select distinct sales from superstore where sales>500 order  by sales asc limit 7;
+select distinct sales from superstore where sales>500 order  by sales desc limit 1 offset 1;
+select distinct sales from superstore where sales>500 order  by sales desc limit 2 offset 4;
+#pattern matching->like,not like
+#starting with "i" letter countries
+select distinct country from superstore where country like "i%";
+#starting with "s" letter countries
+select distinct country from superstore where country like "s%";
+#to get ending "a" letter countries
+select distinct country from superstore where country like "%a";
+#to end with country name "land"
+select distinct country from superstore where country like "%land";
+#to end with country name "ia"
+select distinct country from superstore where country like "%ia";
+#include country names with "us"
+select distinct country from superstore where country like "%us%";
+#include country names with "king"
+select distinct country from superstore where country like "%king%";
+#to get country names with 4th position letter "i"
+select distinct country from superstore where country like "___i%";
+#to get country names with 5th position letter "r"
+select distinct country from superstore where country like "____r%";
+#to get country names with 3th position letter "d"
+select distinct country from superstore where country like "__d%";
+#to get country names with 6 letters 
+select distinct country from superstore where country like "______";
+#to get country names with 5 or 6 letters 
+select distinct country from superstore where country like "_____" or country like "______" ;
+#to get country names with 7 or more than 7 letters 
+select distinct country from superstore where country like "_______" or country like "______%" ;
+#to get country names with less than 7 letters
+select distinct country from superstore where country not like  "_______%" ;
+
+#to get countries include "a" and "s" and sales>500
+select distinct country,sales from superstore where country like"%a%" and country like"%s%" and sales>500;
+select * from superstore;
+select profit,quantity from superstore;
+#arthematic operators->+,-,*,//,/,**,%
+select profit,quantity,profit/quantity from superstore;
+#select profit,quantity,profitquantity from superstore; #doesn't work
+select profit,quantity,profit*quantity from superstore;
+select profit,quantity,profit+quantity from superstore;
+select profit,quantity,profit-quantity from superstore;
+#select profit,quantity,profit**quantity from superstore; #doesn't work
+select profit,quantity,profit%quantity from superstore;
+select profit,quantity,profit/quantity as profit_per_item from superstore order by profit_per_item;
+#remove negative values               
+select profit,quantity,profit/quantity from superstore where profit/quantity>0;
+#select profit,quantity,profit/quantity as profit_per_item from superstore where profit_per_item>0 order by profit_per_item; 
+select profit,quantity,profit/quantity from superstore where profit/quantity>0 order by profit/quantity;
+select profit,quantity,profit/quantity as profit_per_item from superstore where profit>0 order by  profit_per_item;
+#get the bottom 5 profits and profit must be greater than o
+select profit,quantity,profit/quantity as profit_per_item from superstore where profit>0 order by  profit_per_item limit 5;
+#add each sale 500 as expected sale
+select sales,sales+500 as expectedsale from superstore;
+#multiply 2 each num_of_records as modified_records
+select number_of_records,number_of_records*2 as modified_records from superstore;
+#assignment operators->=,:=
+set @min_sales=500;
+select @min_sales=500;
+#to get records sales>min_sales
+select sales from superstore where sales>@min_sales;
+select @min_qty=3;
+#to get records qty>@min_qty
+set @min_qty=3;
+select @min_qty=3;
+select quantity from superstore where quantity>@min_qty;
+set @min_profit=50;
+select @min_profit=50;
+select profit from superstore where profit>@min_profit;
+set @min_profit:=50;
+select @min_profit:=50;
+select profit from superstore where profit>@min_profit;
+
+#aggreations fns min,max,sum,avg,count
+select * from superstore;
+select country,sales from superstore;
+select min(sales) from superstore;
+select max(sales) from superstore;
+select sum(sales) from superstore;
+select avg(sales) from superstore;
+select count(sales) from superstore;
+select sum(sales) as total_sale from superstore;
+select avg(sales) as avg_sale from superstore;
+select min(sales) as min_sale from superstore;
+select max(sales) as max_sale from superstore;
+select count(sales) as count_sale from superstore;
+select country,sum(sales) from superstore group by country;
+select country,segment,sum(sales) from superstore group by country,segment;
+select country,sum(sales) from superstore where country = "germany";
+select country,sum(sales) from superstore where country in ("germany","france") group by country;
+select country,sum(sales) from superstore where country in ("germany","france") group by country order by sum(sales);
+select country,region,sum(sales) from superstore where country in ("germany","france","spain","italy") and Region in("south","north") group by country,Region;
+
+#get country wise total_sales and avg_sales and country should be france
+select country,sum(sales) as total_sales,avg(sales) as avg_sales from superstore where country="france";
+#get segment,country and region wise total_sales and avg_sales
+select segment,country,region,sum(sales) as total_sales,avg(sales) as avg_sales from superstore group by segment,country,region;
+select segment,country,region,sum(sales) as total_sales,avg(sales) as avg_sales from superstore group by 1,2,3;
+#get segment,country wise avg_sales
+select segment,country,avg(sales) as avg_sales from superstore group by 1,2;
+#get segment,country wise avg_sales and avg_sales must be greater than 300
+select segment,country,avg(sales) as avg_sales from superstore where avg_sales>300 group by 1,2;#error
+select segment,country,avg(sales) as avg_sales from superstore group by segment,country having avg_sales>300;
+#get country wise total_sales and country shold be either austria or france or spain or italy or nepal and total_sales must be greter than 2 lakhs
+select country,sum(sales) as total_sales from superstore where country in("austria","france","spain","italy","nepal") 
+group by country having total_sales>200000 order by country;
+
+#get country wise total_profit and country should be either germany or belgium or france or netherlands and total_profit must be greater than 200
+select country,sum(profit) as total_profit from superstore where country in("germany","belgium","france","netherlands") group by country having total_profit>200;
+#total quantity must be greater than 2
+select country,sum(quantity) as total_quantity from superstore where country in("germany","belgium","france","netherlands") group by country having total_quantity>2;
+#total_sales must be greater than 700
+select country,sum(sales) as total_sales from superstore where country in("germany","belgium","france","netherlands") group by country having total_sales>700;
+#bitwise operators
+#&,|,~,^,<<,>>
+#to get the result of quantity of 3
+select product_name,quantity,quantity & 3 as Bitwise_AND from superstore;
+select product_name,quantity,quantity | 2 as Bitwise_OR from superstore;
+select product_name,quantity,~quantity as Bitwise_NOT from superstore;
+select product_name,quantity,quantity ^ 6 as Bitwise_XOR from superstore;
+select product_name,quantity,quantity <<1  as Bitwise_LEFTSHIFT from superstore;
+select product_name,quantity,quantity >>1 as Bitwise_RIGHTSHIFT from superstore;
+#list of the quantity (odd quantity)
+select product_name,quantity from superstore where quantity&1=1;
+#list of the quantity (even quantity)
+select product_name,quantity from superstore where quantity&1=0;
+
+#numeric functions
+#mod,round,pow,sqrt,log,tan,cos,sin,greatest,least,pi,ceil,floor
+#mod->remainder
+select product_name,sales,mod(sales,10) as remainder from superstore;
+#pow
+select product_name,quantity,pow(quantity,2) as result from superstore;
+#sqrt
+select product_name,sales,sqrt(sales) as sqrt from superstore;
+#ceil
+select product_name,sales,ceil(sales/2.0) as ceil from superstore;
+select product_name,quantity,ceil(quantity/2.0) as ceil from superstore;
+#floor
+select product_name,profit,floor(profit/2.0) as floor from superstore;
+select product_name,quantity,floor(quantity/2.0) as floor from superstore;
+#round
+select product_name,quantity,round(quantity/3,4) as rd from superstore;
+select product_name,sales,round(sales/3,4) as rd from superstore;
+#log
+select product_name,quantity,log(quantity) as log from superstore;
+#sin
+select product_name,quantity,sin(quantity) as sin from superstore;
+#cos
+select product_name,quantity,cos(quantity) as cos from superstore;
+#tan
+select product_name,quantity,tan(quantity) as tan from superstore;
+#cot
+select product_name,quantity,cot(quantity) as cot from superstore;
+#pi
+select pi() as pi from superstore;
+#greatest,least,abs,truncate
+select sales,quantity,profit,greatest(sales,quantity,profit) as greatest_value from superstore;
+select sales,quantity,profit,least(sales,quantity,profit) as least_value from superstore;
+select profit,abs(profit) as actual_profit from superstore;
+#truncate is used to remove roundup values
+select sales,truncate(sales/3,3) as truncate_value from superstore;
+
+
+#string functions
+#upper case->change the data into uppercase
+select customer_name,upper(customer_name) as upper from superstore;
+#lower case->change the data into lowercase
+select customer_name,lower(customer_name) as lower from superstore;
+#length
+select customer_name,length(customer_name) as len from superstore;
+#chr_length
+select customer_name,char_length(customer_name) as char_len from superstore;
+#concat
+select customer_name,city,concat(customer_name,city) as concat from superstore;
+select customer_name,city,concat(customer_name,'-',city) as concat from superstore;
+#left
+#display first 5 characters in customer_name
+select customer_name,left(customer_name,5) as left_name from superstore;
+#right
+#display last 6 characters in customer_name
+select customer_name,right(customer_name,6) as right_name from superstore;
+#substring
+select customer_name,substring(customer_name,1,6) as sub from superstore;
+select customer_name,substring(customer_name,5) as sub from superstore;
+#mid
+select customer_name,mid(customer_name,5,9) as mid from superstore;
+#replace
+select ship_mode,replace(ship_mode,"Class","Delivery") as re from superstore;
+#trim
+select customer_name,trim(customer_name) as tri from superstore;
+#ltrim
+select customer_name,ltrim(customer_name) as ltri from superstore;
+#rtrim
+select customer_name,rtrim(customer_name) as rtri from superstore;
+#reverse
+select product_name,reverse(product_name) as rev from superstore;
+#locate
+#to find the book position in product_name
+select product_name,locate("book",product_name) as loc from superstore;
+#ASCII
+select customer_name,ascii(customer_name) as cus_ascii from superstore;
+#find where city names contain "on"
+select city from superstore where city like "%on%";
+#find the customer_name whose name starts with "a"
+select customer_name from superstore where customer_name like "a%";
+#format()->sales with commas
+select sales,format(sales,2) as format_sales from superstore;
+
+#display order_year
+select order_id,order_date,year(order_date) as order_year from superstore;
+#display order_month
+select order_id,order_date,month(order_date) as order_month from superstore;
+#display day name
+select order_id,order_date,dayname(order_date) as order_day_name from superstore;
+#display day of month
+select order_id,order_date,dayofmonth(order_date) as order_day from superstore;
+#display day of week
+select order_id,order_date,dayofweek(order_date) as order_week from superstore;
+#display day of year
+select order_id,order_date,dayofyear(order_date) as order_day_year from superstore;
+#display week number
+select order_id,order_date,weekday(order_date) as week_number from superstore;
+#quarter
+select order_id,order_date,quarter(order_date) as quater_of_year from superstore;
+#last day of month
+select order_id,order_date,dayofmonth(order_date) as last_day_of_month from superstore;
+#add 10 days to order_date
+select order_date,date_add(order_date,interval 10 day) as add_days from superstore;
+#remove 15 days to order date
+select order_date,date_sub(order_date,interval 15 day) as remove_days from superstore;
+#diff b/w order_date and ship_date
+select order_date,ship_date,datediff(order_date,ship_date) as diff from superstore; 
+#format day,month,year
+select order_date,date_format(order_date,"%d-%m-%y") as formatted from superstore;
+#format month,year
+select order_date,date_format(order_date,"%m-%y") as formatted from superstore;
+#orders placed in 2022
+select order_date from superstore where year(order_date)=2022;
+#order placed in march month
+select order_date from superstore where month(order_date)=3;
+#display current date
+select curdate();
+select current_date();
+#display current time
+select curtime();
+select current_time();
+#display current date and time
+select current_timestamp();
+select current_user();
+show databases;
+show tables;
+select connection_id();
+select last_insert_id();
+
+
+use sample;
+select * from superstore;
+#union 
+#merging people from east and west
+select customer_name from superstore where region='north' union select customer_name from superstore where region='south';
+select customer_name,region from superstore where region='north' union select customer_name,region from superstore where region='south';
+select city,region from superstore where region='north' union select city,region from superstore where region='south';
+select customer_name,region from superstore where region='central' union all select customer_name,region from superstore where region='north';
+select category,region from superstore where region='north' union select category,region from superstore where region='south';
+#intersect
+#display customer_name and manufacturer when ship_mode contains both first class and second class
+select customer_name,manufacturer from superstore where ship_mode='first class' intersect select customer_name,manufacturer from superstore where ship_mode='second class';
+select manufacturer from superstore where ship_mode='first class' intersect select manufacturer from superstore where ship_mode='second class';
+#produt_name, category have furniture and office supplies
+select customer_name from superstore where category='Furniture' intersect select customer_name from superstore where category='Office Supplies';
+#except
+#customer_name and region have south and north
+select customer_name from superstore where region='north' except select customer_name from superstore where region='south';
+#city and region have south and north
+select city from superstore where region='north' except select city from superstore where region='south';
+#display queries for union, union all, intersect, except by using order_id where ship_mode have first_class and second_class
+select order_id from superstore where ship_mode='first class' union select order_id from superstore where ship_mode='second class';
+select order_id from superstore where ship_mode='first class' union all select order_id from superstore where ship_mode='second class';
+select order_id from superstore where ship_mode='first class' intersect select order_id from superstore where ship_mode='second class';
+select order_id from superstore where ship_mode='first class' except select order_id from superstore where ship_mode='second class';
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
