@@ -1,0 +1,130 @@
+# Joins - Joins in sql is used to combine rows from 1 or more tables based on related col
+# Types of joins
+# 1. Inner join
+# 2. Left join
+# 3. Right join
+# 4. Full-outer join
+# 5. Self join
+
+# 1. Inner join
+# Returns only the matching rows from both tables
+# Unmatched rows are excluded
+
+# 2. Left join
+# Returns all rows from the left table
+# Returns matching rows from the rigth table 
+# If there is no match the right side col conatin null
+
+# 3. Right join
+# Returns all rows from the right table 
+# Returns matching rows from the left table
+# If there is no match the left side col contain null
+
+# 4. Full-outer join
+# Returns all rows from both tables 
+# Matching rows are combined
+# Non matching rows from either table are also returned with null values for the missing side
+
+# 5. Self join
+# Joins a table with itself
+# Useful for comparing rows with the same table 
+
+use sample;
+select * from superstore;
+# create customers table and orders table
+create table customers select distinct customer_name,order_id,segment,city,state,region from superstore;
+create table orders select distinct order_id,product_name,segment,category,sub_category,quantity,profit,sales,state,city,region,order_date,ship_date from superstore;
+
+#inner join
+select c.customer_name,c.order_id,o.order_id,o.product_name,o.segment from customers as c inner join orders as o  on c.order_id=o.order_id;
+# or
+select c.customer_name,c.order_id,o.order_id,o.product_name from customers c inner join orders o  on c.order_id=o.order_id;
+# customers - customer_name,city,order_id  orders - order_id,product_name,city
+select c.customer_name,c.city,c.order_id,o.order_id,o.product_name,o.city from customers c inner join orders o on c.city=o.city;
+
+use employee;
+#create table employee(emp_id,emp_name,dept_id,manager_id,salary)
+create table employee(emp_id int primary key,emp_name varchar(30),dept_id int,manager_id int,salary decimal(10,2));
+insert into employee values(101,'rupa',1,103,40000),(102,'lakshmi',2,101,50000),(103,'mehar',1,null,50000),(104,'anand',null,106,60000),(105,'bhanu',3,101,80000),(106,'rupesh',null,null,55000);
+select * from employee;
+truncate table employee;
+create table department(dept_id int, dept_name varchar(30),location varchar(30));
+insert into department values(1,'hr','hyderabad'),(2,'it','chennai'),(3,'finance','mumbai'),(4,'marketing','bangalore');
+select * from department;
+create table project(project_id int primary key,project_name varchar(30),dept_id int);
+insert into project values(201,'crm',1),(202,'website',2),(203,'recruiter',1),(204,'developer',3);
+select * from project;
+
+#inner join
+select e.emp_id,e.emp_name,d.dept_id,d.location from employee e inner join department d on e.dept_id = d.dept_id;
+
+#left join
+select e.emp_name,d.dept_name from employee e left join department d on e.dept_id=d.dept_id;
+
+#right join
+select e.emp_name,d.dept_name from employee e right join department d on e.dept_id=d.dept_id;
+
+#inner join 
+#manager id, salary
+select e.manager_id,e.salary,d.dept_name,d.location from employee e inner join department d on e.dept_id=d.dept_id;
+select e.emp_name,d.location from employee e inner join department d on e.dept_id=d.dept_id;
+select * from employee e inner join department d on e.dept_id=d.dept_id;
+
+#left join
+select e.manager_id,e.salary,d.dept_name,d.location from employee e left join department d on e.dept_id=d.dept_id;
+select e.emp_name,d.location from employee e left join department d on e.dept_id=d.dept_id;
+select * from employee e left join department d on e.dept_id=d.dept_id;
+
+#right join
+select e.manager_id,e.salary,d.dept_name,d.location from employee e right join department d on e.dept_id=d.dept_id;
+select e.emp_name,d.location from employee e right join department d on e.dept_id=d.dept_id;
+select * from employee e right join department d on e.dept_id=d.dept_id;
+
+# full outer join
+#select e.manager_id,e.salary,d.dept_name,d.location from employee e full outer join department d on e.dept_id=d.dept_id; - error
+select e.emp_name,d.dept_name from employee e left join department d on e.dept_id=d.dept_id union select e.emp_name,d.dept_name from employee e right join department d on e.dept_id=d.dept_id;
+select e.emp_id,d.dept_id from employee e left join department d on e.dept_id=d.dept_id union select e.emp_id,d.dept_id from employee e right join department d on e.dept_id=d.dept_id;
+
+#cross join
+#every selected dept is assigned wiith every member
+select e.emp_name,d.dept_name from employee e cross join department d;
+select e.emp_name,d.location from employee e cross join department d;
+
+truncate employee;
+
+#self join
+select * from employee e left join employee c on e.emp_id=c.manager_id;
+
+# display it department
+# display salary>50000
+
+select dept_name from department where dept_name='it';
+select salary from employee where salary>50000;
+
+select e.emp_name,e.dept_id,d.dept_name,d.dept_id,p.project_name,p.dept_id from employee e join department d join project p on e.dept_id=d.dept_id and e.dept_id=p.dept_id; 
+select e.emp_name,d.dept_name from employee e join department d on e.dept_id=d.dept_id where d.dept_name="hr";
+select e.emp_name,d.dept_name,e.salary from employee e join department d on e.dept_id=d.dept_id where salary>70000;
+#departments without employees
+select e.emp_name,d.dept_name from employee e left join department d on e.dept_id=d.dept_id where d.dept_id is null;
+select e.emp_name,d.dept_name from employee e left join department d on e.dept_id=d.dept_id where d.dept_id is not null;
+#employees  without departments
+select e.emp_name from employee e left join department d on e.dept_id=d.dept_id where d.dept_id is null;
+#avg salary
+select d.dept_name,avg(e.salary) as avg_salary from department d join employee e on d.dept_id=e.dept_id group by d.dept_name; 
+#highest salary 
+select d.dept_name,max(e.salary) as max_salary from department d join employee e on d.dept_id=e.dept_id group by d.dept_name; 
+select e.emp_name,d.dept_name,max(e.salary) as max_salary from department d join employee e on d.dept_id=e.dept_id group by e.emp_name,d.dept_name; 
+#equi join 
+select e.emp_name,d.dept_name from employee e join department d on d.dept_id=e.dept_id;
+#natural join 
+select emp_name,dept_name from employee natural join department;
+#not equi join
+select e1.emp_name as employee1,e1.salary,e2.emp_name as employee2,e2.salary from employee e1 join employee e2 on e1.salary>e2.salary;
+#exist->exist means returns true if the subquery returns atleast one row
+#non exist->returns true if the subquery returns atleast no rows
+select d.dept_id,d.dept_name from department d where exists(select * from employee e where d.dept_id=e.dept_id);
+select d.dept_id,d.dept_name from department d where not exists(select * from employee e where d.dept_id=e.dept_id);
+
+
+
+
