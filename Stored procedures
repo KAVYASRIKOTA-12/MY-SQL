@@ -1,0 +1,23 @@
+#stored procedure->is a group of sql statements stored inside the database instead of writing the same query repeatedly we created a procedure once and execute in whenever required.
+delimiter //
+create procedure getallpatients()
+begin select * from patient;
+end //
+delimiter ;
+call getallpatients;
+
+#input procedure format
+delimiter //
+create procedure getpatientid(in patient_id int) begin select * from patient where patient_id=patient_id;
+end //
+delimiter ;
+select * from patient where patient_id=106;
+call getpatientid(103);
+
+delimiter //
+create procedure getpatientdisease(in p_disease varchar(50)) begin select * from patient where disease=p_disease;
+end //
+delimiter ;
+drop procedure getpatientdisease;
+select * from patient where disease="fever";
+call getpatientdisease("fever");
