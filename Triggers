@@ -1,0 +1,104 @@
+#Triggers->a trigger is a special sql program that automatically executes when an event occurs on a table.
+#commom events:
+#1.insert->when a new record is added
+#2.update->when an existing record is modify
+#3.delete->when a record is remove
+#types of triggers:1.after trigger->executes after the operation 2.before trigger->executes after the operation
+drop database hospital;
+create database hospital;
+use hospital;
+drop table patient;
+create table patient(patient_id int primary key,patient_name varchar(50),age int,gender varchar(10),disease varchar(50),doctor_id varchar(20),fees int);
+insert into patient values(101,"sravya",25,"female","heart disease",1,500),(102,"arun",26,"male","fever",2,300),
+(103,"swetha",27,"female","diabetes",3,700),(104,"gopal",30,"male","cancer",1,1000);
+select * from patient;
+drop table patient_log;
+create table patient_log(patient_id int auto_increment primary key,log_id int,action varchar(50),action_time timestamp default current_timestamp);
+#after insert
+drop trigger if exists after_patient_insert;
+delimiter //
+create trigger after_patient_insert after insert on patient for each row
+begin
+insert into patient_log(patient_id,action)
+values(new.patient_id,"patient registered");
+end //
+delimiter ;
+select * from patient_log;
+insert into patient values(105,"sneha",20,"f","typhoid",2,600);
+select * from patient;
+
+#after update
+drop trigger if exists after_patient_update;
+delimiter //
+create trigger after_patient_update after update on patient for each row
+begin
+insert into patient_log(patient_id,action)
+values(new.patient_id,"patient is updated");
+end //
+delimiter ;
+update patient set fees=800 where patient_id=102;
+select * from patient;
+
+#after delete
+drop trigger if exists after_patient_delete;
+delimiter //
+create trigger after_patient_delete after delete on patient for each row
+begin
+insert into patient_log(patient_id,action)
+values(old.patient_id,"patient is deleted");
+end //
+delimiter ;
+delete from patient where patient_id=101;
+select * from patient;
+
+#before insert on
+drop trigger if exists before_patient_insert;
+delimiter //
+create trigger before_patient_insert before insert on patient for each row begin if new.fees<0 then set new.fees=0;
+end if;
+end//
+delimiter ;
+insert into patient values(106,'pooja',28,'f','thyroid',5,-500);
+select * from patient where patient_id=106;
+
+#before update on
+delimiter //
+create trigger before_patient_update before update on patient for each row begin if new.fees<0 then set new.fees=0;
+end if;
+end//
+delimiter ;
+update patient set fees=900 where patient_id=103;
+select * from patient;
+select * from patient_log;
+show triggers;
+
+#stored procedure->is a group of sql statements stored inside the database instead of writing the same query repeatedly we created a procedure once and execute in whenever required.
+delimiter //
+create procedure getallpatients()
+begin select * from patient;
+end //
+delimiter ;
+call getallpatients;
+
+#input procedure format
+delimiter //
+create procedure getpatientid(in patient_id int) begin select * from patient where patient_id=patient_id;
+end //
+delimiter ;
+select * from patient where patient_id=106;
+call getpatientid(103);
+
+delimiter //
+create procedure getpatientdisease(in p_disease varchar(50)) begin select * from patient where disease=p_disease;
+end //
+delimiter ;
+drop procedure getpatientdisease;
+select * from patient where disease="fever";
+call getpatientdisease("fever");
+
+delimiter //
+create procedure getpatientfees(in p_fees int) begin select * from patient where fees=p_fees;
+end //
+delimiter ;
+select * from patient;
+call getpatientfees(600);
