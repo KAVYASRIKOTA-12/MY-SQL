@@ -1,3 +1,12 @@
+drop database hospital;
+create database hospital;
+use hospital;
+drop table patient;
+create table patient(patient_id int primary key,patient_name varchar(50),age int,gender varchar(10),disease varchar(50),doctor_id varchar(20),fees int);
+insert into patient values(101,"sravya",25,"female","heart disease",1,500),(102,"arun",26,"male","fever",2,300),
+(103,"swetha",27,"female","diabetes",3,700),(104,"gopal",30,"male","cancer",1,1000);
+select * from patient;
+
 #stored procedure->is a group of sql statements stored inside the database instead of writing the same query repeatedly we created a procedure once and execute in whenever required.
 delimiter //
 create procedure getallpatients()
